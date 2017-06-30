@@ -40,32 +40,32 @@ struct Queue {
 
 int portno;
 
-void QueueAdd(struct Queue que, struct Node* element) {
+void QueueAdd(struct Queue *que, struct Node* element) {
 	pthread_mutex_lock(&lock);
-	if (que.size == 0) {
-		que.head = element;
-		que.head->next = NULL;
-		que.tail = que.head;
+	if (que->size == 0) {
+		que->head = element;
+		que->head->next = NULL;
+		que->tail = que.head;
 	}
 	else {
-		que.tail->next = element;
-		que.tail = que.tail->next;
+		que->tail->next = element;
+		que->tail = que->tail->next;
 	}
-	que.size++;
-	pthread_mutex_unlock(&lock)
+	que->size++;
+	pthread_mutex_unlock(&lock);
 }
-struct Node * Pop(struct Queue que) {
+struct Node * Pop(struct Queue *que) {
 	pthread_mutex_lock(&lock);
-	if (que.size == 0) {
+	if (que->size == 0) {
 		pthread_mutex_unlock(&lock);
 		return NULL;
 	}
 	else {
-		struct Node *p = que.head;
-		que.head = que.head->next;
-		if (que.size == 1)
-			que.tail = NULL;	
-		que.size--;
+		struct Node *p = que->head;
+		que->head = que->head->next;
+		if (que->size == 1)
+			que->tail = NULL;
+		que->size--;
 		pthread_mutex_unlock(&lock);
 		return p;
 	}
@@ -133,8 +133,8 @@ void *recerving_handler(void *pfd) {
 					newNode->next = NULL;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
-					QueueAdd(requests, newNode);
-					printf("%d\n", request.size);
+					QueueAdd(&requests, newNode);
+					//printf("%d\n", requests.size);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
@@ -160,7 +160,7 @@ void *ping_handler(void *pworker) {
 	//printf("%d\n",requests.size);
 	while (1) {
 		if (requests.size > 0) {
-			struct Node* p = Pop(requests);
+			struct Node* p = Pop(&requests);
 			unsigned long int handle = p->handle;
 			char logfile[BUFFERSIZE];
 			memset(logfile, 0, BUFFERSIZE);
