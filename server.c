@@ -45,7 +45,7 @@ void QueueAdd(struct Queue *que, struct Node* element) {
 	if (que->size == 0) {
 		que->head = element;
 		que->head->next = NULL;
-		que->tail = que.head;
+		que->tail = element;
 	}
 	else {
 		que->tail->next = element;
