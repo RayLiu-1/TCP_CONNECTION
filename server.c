@@ -296,7 +296,7 @@ int main(int argc, char *argv[]) {
 	//Receive requests from clients 
 	int client_size = sizeof(struct sockaddr_in);
 	int *pfd;
-
+	puts("dddd");
 	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size))) {
 		puts("Connection accepted.");
 		pfd = &client_fd;
