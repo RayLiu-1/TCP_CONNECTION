@@ -137,7 +137,7 @@ void *recerving_handler(void *pfd) {
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
-				fclose(fp);
+				//fclose(fp);
 			}
 		}
 		else if (strncmp("showHandleStatus", request, 16)==0) {
@@ -157,7 +157,7 @@ void *recerving_handler(void *pfd) {
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
 	while (1) {
-		/*if (requests.size > 0) {
+		if (requests.size > 0) {
 			//puts("sd");
 			struct Node* p = Pop(&requests);
 			unsigned long int handle = p->handle;
@@ -242,9 +242,9 @@ void *ping_handler(void *pworker) {
 					fprintf(fp, "%4d %4d %4d   COMPLETE   \n",Sum_Time/Num_Succ,min_time,max_time);
 				}
 			}
-			fclose(fp);
+			//fclose(fp);
 			free(p);
-		}*/
+		}
 	}
 }
 
