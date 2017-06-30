@@ -112,7 +112,9 @@ void *recerving_handler(void *pfd) {
 			}
 			if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
 				perror("Wrinting to socket failed");
+				exit(1);
 			}
+			puts(host);
 			unsigned long handle;
 			if (strlen(host)>0) {
 				handle = ++max_handle;
@@ -122,6 +124,7 @@ void *recerving_handler(void *pfd) {
 				fp = fopen(filename, "w+");
 				if (fp == NULL) {
 					perror("Opening file failed.");
+					exit(1);
 				}
 				while (host != NULL) {
 					host = strtok(NULL, ",");
@@ -163,6 +166,7 @@ void *ping_handler(void *pworker) {
 			fp = fopen(logfile, "rw");
 			if (fp == NULL) {
 				perror("Opening file failed");
+				exit(1);
 			}
 			char record[BUFFERSIZE];//Each line in the file is a record for certain host
 			while (fgets(record, BUFFERSIZE, fp) != NULL) {
