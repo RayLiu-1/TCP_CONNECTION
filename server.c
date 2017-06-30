@@ -102,6 +102,7 @@ void *recerving_handler(void *pfd) {
 			char* host;
 			host = strtok(request, " ");
 			char handle_msg[BUFFERSIZE];
+			host = strtok(NULL, " ,");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "%lu\n", max_handle+1);
 			}
@@ -133,6 +134,10 @@ void *recerving_handler(void *pfd) {
 				}
 				fclose(fp);
 			}
+		}
+		else if (strncmp("showHandleStatus", request, 16)) {
+			char handleNo[BUFFERSIZE];
+			
 		}
 		else {
 			const char* msg = "Invalid command.\n";
@@ -279,7 +284,7 @@ int main(int argc, char *argv[]) {
 		perror("Initailizing mutex lock failed\n");
 	}
 	//Create the ping thread
-	puts("asd\n");
+	
 	for (int i = 0; i < WORKSNO; i++) {
 		int *NO = malloc(sizeof(int));
 		*NO = i;
