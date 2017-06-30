@@ -235,7 +235,7 @@ void *ping_handler(void *pworker) {
 						}
 						Sum_Time += time;
 					}
-					fclose(sockfd);
+					close(sockfd);
 					sleep(1);
 				}
 				if (Num_Succ == 0) {
