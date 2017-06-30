@@ -157,6 +157,7 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
+	printf("%d\n", worker);
 	while (1) {
 		if (requests.size > 0) {
 			struct Node* p = Pop(requests);
