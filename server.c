@@ -110,7 +110,7 @@ void *recerving_handler(void *pfd) {
 			else {
 				strncpy(handle_msg, "Please use \'pingSites <host>\'.",BUFFERSIZE);
 			}
-			puts(hosts);
+			puts(host);
 			if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
 				perror("Wrinting to socket failed");
 				exit(1);
