@@ -94,6 +94,7 @@ struct Node * Pop(struct Queue que) {
 struct Queue requests;
 
 void *recerving_handler(void *pfd) {
+	puts("qweqewd");
 	int client_fd = *(int*)pfd;
 	int read_size;
 	char request[BUFFERSIZE];
@@ -104,7 +105,6 @@ void *recerving_handler(void *pfd) {
 			char handle_msg[BUFFERSIZE];
 			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,");
-			puts("trevor");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "%lu\n", max_handle+1);
 			}
