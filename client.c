@@ -77,11 +77,12 @@ int main(int argc, char *argv[]) {
 				perror("Writing to socket failed");
 				exit(1);
 			}
-			//puts("????");
+			memset(command, 0, BUFFERSIZE);
 			if (read(serverfd, command, BUFFERSIZE) < 0) {
 				perror("Reading from socket failed");
 				exit(1);
 			}
+
 			printf("%s\n", command);
 		}
 		else if (commamdType == 2) {

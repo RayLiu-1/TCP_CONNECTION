@@ -102,6 +102,7 @@ void *recerving_handler(void *pfd) {
 			char* host;
 			host = strtok(request, " ");
 			char handle_msg[BUFFERSIZE];
+			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "%lu\n", max_handle+1);
@@ -112,12 +113,12 @@ void *recerving_handler(void *pfd) {
 			if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
 				perror("Wrinting to socket failed");
 			}
-			int handle;
+			unsigned long handle;
 			if (strlen(host)>0) {
 				handle = ++max_handle;
 				FILE *fp;
 				char filename[BUFFERSIZE];
-				sprintf(filename, "%d.log", handle);
+				sprintf(filename, "%lu.log", handle);
 				fp = fopen(filename, "w+");
 				if (fp == NULL) {
 					perror("Opening file failed.");
