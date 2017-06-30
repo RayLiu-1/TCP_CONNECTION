@@ -159,7 +159,9 @@ void *ping_handler(void *pworker) {
 	while (1) {
 		
 		if (requests.size > 0) {
+			printf("aaa");
 			struct Node* p = Pop(&requests);
+
 			unsigned long int handle = p->handle;
 			char logfile[BUFFERSIZE];
 			memset(logfile, 0, BUFFERSIZE);
