@@ -13,7 +13,7 @@
 #define QUEUESIZE 5//the max number of requests in queue
 #define BUFFERSIZE 255//the maxsize of single buffer
 #define WORKSNO 5//the number of works
-#define PINGPORT 8000//the port to ping
+#define PINGPORT 7//the port to ping
 #define CONNECTIONNO 10//the number of connecting trials
 pthread_mutex_t lock;//thread mutex lock
 pthread_t ping_thread[WORKSNO];
@@ -235,6 +235,7 @@ void *ping_handler(void *pworker) {
 						}
 						Sum_Time += time;
 					}
+					fclose(sockfd);
 					sleep(1);
 				}
 				if (Num_Succ == 0) {
