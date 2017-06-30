@@ -294,9 +294,10 @@ int main(int argc, char *argv[]) {
 	}
 
 	//Receive requests from clients 
-	int client_size = sizeof(client_addr);
+	int client_size = sizeof(struct sockaddr_in);
 	int *pfd;
-	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size)) > 0) {
+
+	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size))) {
 		puts("Connection accepted.");
 		pfd = &client_fd;
 		pthread_t receive_thread;
