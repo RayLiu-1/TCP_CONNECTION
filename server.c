@@ -104,6 +104,7 @@ void *recerving_handler(void *pfd) {
 			char handle_msg[BUFFERSIZE];
 			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,");
+			puts(host);
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "%lu\n", max_handle+1);
 			}
@@ -114,7 +115,7 @@ void *recerving_handler(void *pfd) {
 				perror("Wrinting to socket failed");
 				exit(1);
 			}
-			puts(host);
+			
 			unsigned long handle;
 			if (strlen(host)>0) {
 				handle = ++max_handle;
