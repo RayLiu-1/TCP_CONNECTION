@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 	server_addr.sin_addr.s_addr = inet_addr(argv[1]);
 	//Connect to the server
 	if (connect(serverfd, (struct sockaddr *)&server_addr,sizeof(server_addr))<0) {
-		perror("Binding server failed");
+		perror("Connecting server failed");
 		exit(1);
 	}
 	puts("Get connection with the server.");

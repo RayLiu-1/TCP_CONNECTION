@@ -271,7 +271,7 @@ int main(int argc, char *argv[]) {
 
 	//printf("%s\n", str);
 	//Bind server socket with server address
-	if (bind(server_fd, (struct sockaddr*) &server_addr, sizeof(server_addr) ) < 0) {
+	if ((bind(server_fd, (struct sockaddr*) &server_addr, sizeof(server_addr) )) < 0) {
 		perror("Binding socket failed");
 	}
 	//Listen on the server socket for connections
