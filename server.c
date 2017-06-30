@@ -142,7 +142,7 @@ void *recerving_handler(void *pfd) {
 		else {
 			const char* msg = "Invalid command.\n";
 			//strncpy(msg, "Invalid command.\n",18);
-			if (write(client_fd, msg, strlen(msg)) < 0) {
+			if ((write(client_fd, msg, strlen(msg))) < 0) {
 				perror("Wrinting to socket failed");
 			}
 		}
@@ -180,7 +180,7 @@ void *ping_handler(void *pworker) {
 			site = gethostbyname(p->site);
 			sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
-			if (fcntl(sockfd, F_SETFL, O_NONBLOCK) < 0) {
+			if ((fcntl(sockfd, F_SETFL, O_NONBLOCK)) < 0) {
 				perror("Setting non-blocking failed.");
 			}
 			if (sockfd < 0) {
@@ -208,7 +208,7 @@ void *ping_handler(void *pworker) {
 					FD_SET(sockfd, &fds);
 					gettimeofday(&begin, NULL);
 					connect(sockfd, (struct sockaddr*)&site_addr, sizeof(site_addr));
-					ready = select(sockfd + 1, NULL, &fds, NULL, &timeout) < 0;
+					ready = select(sockfd + 1, NULL, &fds, NULL, &timeout);
 					gettimeofday(&end, NULL);
 					if (ready == -1) {
 						perror("Selecting file descriptors failed");
@@ -279,7 +279,7 @@ int main(int argc, char *argv[]) {
 	printf("The server is ready to be connected.\n");
 
 	//initial the mutex lock
-	if (pthread_mutex_init(&lock, NULL) != 0)
+	if ((pthread_mutex_init(&lock, NULL)) != 0)
 	{
 		perror("Initailizing mutex lock failed\n");
 	}
@@ -288,7 +288,7 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < WORKSNO; i++) {
 		int *NO = malloc(sizeof(int));
 		*NO = i;
-		if (pthread_create(&ping_thread[i], NULL, ping_handler, NO) < 0) {
+		if ((pthread_create(&ping_thread[i], NULL, ping_handler, NO)) < 0) {
 			perror("Creating thread failed");
 		}
 		pthread_join(ping_thread[i], NULL);
@@ -297,14 +297,14 @@ int main(int argc, char *argv[]) {
 	//Receive requests from clients 
 	int client_size = sizeof(client_addr);
 	int *pfd;
-	while (client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size) > 0) {
+	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size)) > 0) {
 		printf("Connection accepted.\n");
 		pfd = &client_fd;
 		pthread_t receive_thread;
 		pfd = malloc(sizeof(pfd));
 		*pfd = client_fd;
 
-		if (pthread_create(&receive_thread, NULL, recerving_handler, (void*)pfd) < 0) {
+		if ((pthread_create(&receive_thread, NULL, recerving_handler, (void*)pfd)) < 0) {
 			perror("Creating thread failed");
 		}
 		pthread_join(receive_thread, NULL);
