@@ -157,9 +157,10 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
-	printf("%d\n", worker);
+	
 	while (1) {
 		if (requests.size > 0) {
+			printf("%d\n", worker);
 			struct Node* p = Pop(requests);
 			unsigned long int handle = p->handle;
 			char logfile[BUFFERSIZE];
@@ -234,6 +235,7 @@ void *ping_handler(void *pworker) {
 						
 						Sum_Time += time;
 					}
+					sleep(1);
 				}
 				if (Num_Succ == 0) {
 					fprintf(fp, "Connection time out         \n");
@@ -245,8 +247,6 @@ void *ping_handler(void *pworker) {
 			free(p);
 		}
 	}
-	
-	
 }
 
 int main(int argc, char *argv[]) {
