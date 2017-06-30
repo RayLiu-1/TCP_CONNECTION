@@ -222,6 +222,7 @@ void *ping_handler(void *pworker) {
 					else if(ready == 1){
 						Num_Succ++;
 						int time = (end.tv_sec - begin.tv_sec) * 1000 + (end.tv_usec - begin.tv_usec) / 1000;
+						printf("%d\n", time);
 						if (Num_Succ == 0) {
 							min_time = time;
 							max_time = time;
