@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
 				exit(1);
 			}
 
-			printf("%s\n", command);
+			printf("Your handle :%s", command);
 		}
 		else if (commamdType == 2) {
 			//todo

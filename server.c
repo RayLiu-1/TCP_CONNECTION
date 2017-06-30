@@ -104,6 +104,7 @@ void *recerving_handler(void *pfd) {
 			char handle_msg[BUFFERSIZE];
 			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,");
+			puts("trevor");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "%lu\n", max_handle+1);
 			}
@@ -180,7 +181,6 @@ void *ping_handler(void *pworker) {
 			//site = malloc(sizeof(struct hostent));
 			site = gethostbyname(p->site);
 			sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
 			if ((fcntl(sockfd, F_SETFL, O_NONBLOCK)) < 0) {
 				perror("Setting non-blocking failed.");
 			}
@@ -236,7 +236,7 @@ void *ping_handler(void *pworker) {
 					fprintf(fp, "%4d %4d %4d   COMPLETE   \n",Sum_Time/Num_Succ,min_time,max_time);
 				}
 			}
-
+			free(p);
 		}
 	}
 	
