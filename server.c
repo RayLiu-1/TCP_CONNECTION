@@ -287,6 +287,7 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < WORKSNO; i++) {
 		int *NO = malloc(sizeof(int));
 		*NO = i;
+		puts("dddd");
 		if ((pthread_create(&ping_thread[i], NULL, ping_handler, NO)) < 0) {
 			perror("Creating thread failed");
 		}
@@ -296,7 +297,7 @@ int main(int argc, char *argv[]) {
 	//Receive requests from clients 
 	int client_size = sizeof(struct sockaddr_in);
 	int *pfd;
-	puts("dddd");
+	
 	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size))) {
 		puts("Connection accepted.");
 		pfd = &client_fd;
