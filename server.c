@@ -277,7 +277,6 @@ int main(int argc, char *argv[]) {
 	//Listen on the server socket for connections
 	listen(server_fd, QUEUESIZE);
 	printf("The server is ready to be connected.\n");
-
 	//initial the mutex lock
 	if ((pthread_mutex_init(&lock, NULL)) != 0)
 	{
@@ -297,6 +296,7 @@ int main(int argc, char *argv[]) {
 	//Receive requests from clients 
 	int client_size = sizeof(client_addr);
 	int *pfd;
+	puts("aaaaa");
 	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size)) > 0) {
 		printf("Connection accepted.\n");
 		pfd = &client_fd;

@@ -77,8 +77,7 @@ int main(int argc, char *argv[]) {
 				perror("Writing to socket failed");
 				exit(1);
 			}
-			puts("????");
-
+			//puts("????");
 			if (read(serverfd, command, BUFFERSIZE) < 0) {
 				perror("Reading from socket failed");
 				exit(1);
