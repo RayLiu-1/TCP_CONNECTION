@@ -157,8 +157,8 @@ void *recerving_handler(void *pfd) {
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
 	while (1) {
-		
 		if (requests.size > 0) {
+			//puts("sd");
 			struct Node* p = Pop(&requests);
 			unsigned long int handle = p->handle;
 			char logfile[BUFFERSIZE];
@@ -173,7 +173,7 @@ void *ping_handler(void *pworker) {
 			char record[BUFFERSIZE];//Each line in the file is a record for certain host
 			while (fgets(record, BUFFERSIZE, fp) != NULL) {
 				char *host;
-				if (strncmp(host, p->site, strnlen(host,BUFFERSIZE)) == 0) {
+				if (strncmp(host, p->site, strlen(host)) == 0) {
 					const char* status = "  00   00   00   IN_PROGRESS\n";
 					fprintf(fp,"%s", status);
 					fseek(fp, 0 - sizeof(status), SEEK_CUR);
@@ -192,7 +192,7 @@ void *ping_handler(void *pworker) {
 			if (sockfd < 0) {
 				perror("ERROR opening socket");
 			}
-			if (site == NULL) {
+			if (site == NULL|| site->h_addr_list[0]==NULL) {
 				fprintf(fp, "  --   --   --   NO_HOST    \n");
 			}
 			else {
