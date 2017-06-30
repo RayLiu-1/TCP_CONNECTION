@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
 		char command[BUFFERSIZE];
 		memset(command, 0, sizeof(command));
 		fgets(command, BUFFERSIZE, stdin);
+		puts("????");
 		int commamdType = valid_command(command);
 		if (commamdType == 1) {
 			if (write(serverfd, command, strlen(command)) < 0) {
