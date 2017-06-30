@@ -156,8 +156,8 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
-	/*while (1) {
-		if (requests.size > 0) {
+	while (1) {
+		/*if (requests.size > 0) {
 			//puts("sd");
 			struct Node* p = Pop(&requests);
 			unsigned long int handle = p->handle;
@@ -244,8 +244,8 @@ void *ping_handler(void *pworker) {
 			}
 			fclose(fp);
 			free(p);
-		}
-	}*/
+		}*/
+	}
 }
 
 int main(int argc, char *argv[]) {
