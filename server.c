@@ -133,8 +133,9 @@ void *recerving_handler(void *pfd) {
 					newNode->next = NULL;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
-					//QueueAdd(&requests, newNode);
-					//printf("%d\n", requests.size);
+					printf("%d\n", requests.size);
+					QueueAdd(&requests, newNode);
+					printf("%d\n", requests.size);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
