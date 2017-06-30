@@ -52,8 +52,7 @@ void QueueAdd(struct Queue que, struct Node* element) {
 		que.tail = que.tail->next;
 	}
 	que.size++;
-	pthread_mutex_unlock(&lock);
-
+	pthread_mutex_unlock(&lock)
 }
 struct Node * Pop(struct Queue que) {
 	pthread_mutex_lock(&lock);
@@ -135,13 +134,14 @@ void *recerving_handler(void *pfd) {
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(requests, newNode);
+					printf("%d\n", request.size);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
 				fclose(fp);
 			}
 		}
-		else if (strncmp("showHandleStatus", request, 16)) {
+		else if (strncmp("showHandleStatus", request, 16)==0) {
 			char handleNo[BUFFERSIZE];
 			
 		}
@@ -157,10 +157,9 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
-	printf("%d\n",requests.size);
+	//printf("%d\n",requests.size);
 	while (1) {
 		if (requests.size > 0) {
-			printf("%d\n", worker);
 			struct Node* p = Pop(requests);
 			unsigned long int handle = p->handle;
 			char logfile[BUFFERSIZE];
