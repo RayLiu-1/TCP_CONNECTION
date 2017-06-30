@@ -157,7 +157,6 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
-	
 	while (1) {
 		if (requests.size > 0) {
 			printf("%d\n", worker);
@@ -265,7 +264,10 @@ int main(int argc, char *argv[]) {
 		perror("Creating socket failed");
 		return 1;
 	}
-
+	//initial request queue
+	requests.head = NULL;
+	requests.tail = NULL;
+	requests.size = 0;
 	//set the server address 
 	struct sockaddr_in server_addr, client_addr;
 	memset(&server_addr, 0, sizeof(server_addr));
