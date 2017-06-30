@@ -209,7 +209,6 @@ void *ping_handler(void *pworker) {
 				int Num_Succ = 0;
 				int Sum_Time = 0;
 				int ready;
-				puts("asd");
 				for (int i = 0; i < CONNECTIONNO; i++) {
 					FD_ZERO(&fds);
 					FD_SET(sockfd, &fds);
@@ -217,7 +216,7 @@ void *ping_handler(void *pworker) {
 					connect(sockfd, (struct sockaddr*)&site_addr, sizeof(site_addr));
 					ready = select(sockfd + 1, NULL, &fds, NULL, &timeout);
 					gettimeofday(&end, NULL);
-					//puts("asd");
+					printf("%d\n", ready);
 					if (ready < 0) {
 						perror("Selecting file descriptors failed");
 					}
