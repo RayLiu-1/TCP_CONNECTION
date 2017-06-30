@@ -127,13 +127,13 @@ void *recerving_handler(void *pfd) {
 					exit(1);
 				}
 				while (host != NULL) {
-					
 					struct Node *newNode = malloc(sizeof(struct Node));
 					newNode->handle = handle;
 					newNode->next = NULL;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(&requests, newNode);
+					puts("aad");
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
@@ -159,9 +159,7 @@ void *ping_handler(void *pworker) {
 	while (1) {
 		
 		if (requests.size > 0) {
-			printf("aaa");
 			struct Node* p = Pop(&requests);
-
 			unsigned long int handle = p->handle;
 			char logfile[BUFFERSIZE];
 			memset(logfile, 0, BUFFERSIZE);
