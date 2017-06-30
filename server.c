@@ -217,10 +217,11 @@ void *ping_handler(void *pworker) {
 					connect(sockfd, (struct sockaddr*)&site_addr, sizeof(site_addr));
 					ready = select(sockfd + 1, NULL, &fds, NULL, &timeout);
 					gettimeofday(&end, NULL);
+					puts("asd");
 					if (ready == -1) {
 						perror("Selecting file descriptors failed");
 					}
-					puts("asd");
+					
 					else if(ready == 1){
 						Num_Succ++;
 						int time = (end.tv_sec - begin.tv_sec) * 1000 + (end.tv_usec - begin.tv_usec) / 1000;
