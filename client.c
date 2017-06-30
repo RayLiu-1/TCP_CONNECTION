@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 	int serverfd, portno;
 	struct sockaddr_in server_addr;
 	portno = atoi(argv[2]);
-	if (serverfd = socket(AF_INET, SOCK_STREAM, 0)<0) {
+	if ((serverfd = socket(AF_INET, SOCK_STREAM, 0))<0) {
 		perror("Creating socket failed");
 		exit(1);
 	}
