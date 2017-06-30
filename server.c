@@ -94,7 +94,6 @@ struct Node * Pop(struct Queue que) {
 struct Queue requests;
 
 void *recerving_handler(void *pfd) {
-	puts("qweqewd");
 	int client_fd = *(int*)pfd;
 	int read_size;
 	char request[BUFFERSIZE];
@@ -162,7 +161,7 @@ void *ping_handler(void *pworker) {
 			sprintf(logfile, "%lu.log", handle);
 			FILE* fp;
 			fp = fopen(logfile, "rw");
-			if (fp = NULL) {
+			if (fp == NULL) {
 				perror("Opening file failed");
 			}
 			char record[BUFFERSIZE];//Each line in the file is a record for certain host
