@@ -71,13 +71,14 @@ int main(int argc, char *argv[]) {
 		char command[BUFFERSIZE];
 		memset(command, 0, sizeof(command));
 		fgets(command, BUFFERSIZE, stdin);
-		puts("????");
 		int commamdType = valid_command(command);
 		if (commamdType == 1) {
 			if (write(serverfd, command, strlen(command)) < 0) {
 				perror("Writing to socket failed");
 				exit(1);
 			}
+			puts("????");
+
 			if (read(serverfd, command, BUFFERSIZE) < 0) {
 				perror("Reading from socket failed");
 				exit(1);
