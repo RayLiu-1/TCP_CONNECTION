@@ -13,7 +13,7 @@
 #define QUEUESIZE 5//the max number of requests in queue
 #define BUFFERSIZE 255//the maxsize of single buffer
 #define WORKSNO 5//the number of works
-#define PINGPORT 7//the port to ping
+#define PINGPORT 1//the port to ping
 #define CONNECTIONNO 10//the number of connecting trials
 pthread_mutex_t lock;//thread mutex lock
 pthread_t ping_thread[WORKSNO];
@@ -185,13 +185,7 @@ void *ping_handler(void *pworker) {
 			struct hostent *site;
 			//site = malloc(sizeof(struct hostent));
 			site = gethostbyname(p->site);
-			sockfd = socket(AF_INET, SOCK_STREAM, 0);
-			if ((fcntl(sockfd, F_SETFL, O_NONBLOCK)) < 0) {
-				perror("Setting non-blocking failed.");
-			}
-			if (sockfd < 0) {
-				perror("ERROR opening socket");
-			}
+			
 			if (site == NULL|| site->h_addr_list[0]==NULL) {
 				fprintf(fp, "  --   --   --   NO_HOST    \n");
 			}
@@ -210,11 +204,18 @@ void *ping_handler(void *pworker) {
 				int Sum_Time = 0;
 				int ready;
 				for (int i = 0; i < CONNECTIONNO; i++) {
+					sockfd = socket(AF_INET, SOCK_STREAM, 0);
+					if ((fcntl(sockfd, F_SETFL, O_NONBLOCK)) < 0) {
+						perror("Setting non-blocking failed.");
+					}
+					if (sockfd < 0) {
+						perror("ERROR opening socket");
+					}
 					FD_ZERO(&fds);
 					FD_SET(sockfd, &fds);
 					gettimeofday(&begin, NULL);
 					connect(sockfd, (struct sockaddr*)&site_addr, sizeof(site_addr));
-					ready = select(sockfd + 1, NULL, &fds, NULL, &timeout);
+					ready = select(sockfd + 1, &fds, &fds, NULL, &timeout);
 					gettimeofday(&end, NULL);
 					printf("%d\n", ready);
 					if (ready < 0) {
