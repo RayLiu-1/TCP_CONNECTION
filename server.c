@@ -283,7 +283,6 @@ int main(int argc, char *argv[]) {
 		perror("Initailizing mutex lock failed\n");
 	}
 	//Create the ping thread
-	puts("aaaaa");
 
 	for (int i = 0; i < WORKSNO; i++) {
 		int *NO = malloc(sizeof(int));
@@ -298,7 +297,7 @@ int main(int argc, char *argv[]) {
 	int client_size = sizeof(client_addr);
 	int *pfd;
 	while ((client_fd = accept(server_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_size)) > 0) {
-		printf("Connection accepted.\n");
+		puts("Connection accepted.");
 		pfd = &client_fd;
 		pthread_t receive_thread;
 		pfd = malloc(sizeof(pfd));
