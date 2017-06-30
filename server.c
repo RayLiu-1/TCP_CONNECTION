@@ -114,7 +114,7 @@ void *recerving_handler(void *pfd) {
 			}
 			int handle;
 			if (strlen(host)>0) {
-				handle = max_handle++;
+				handle = ++max_handle;
 				FILE *fp;
 				char filename[BUFFERSIZE];
 				sprintf(filename, "%d.log", handle);
@@ -128,7 +128,7 @@ void *recerving_handler(void *pfd) {
 					newNode->handle = handle;
 					newNode->next = NULL;
 					memset(newNode->site, 0, BUFFERSIZE);
-					strncpy(newNode->site, host, BUFFERSIZE);
+					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(requests, newNode);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 				}
