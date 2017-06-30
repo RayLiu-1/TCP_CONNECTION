@@ -100,10 +100,10 @@ void *recerving_handler(void *pfd) {
 	while ((read_size = recv(client_fd, request, BUFFERSIZE, 0)) > 0) {
 		if (strncmp("pingSites ", request, 10) == 0) {
 			char* host;
-			host = strtok(request, " ");
+			host = strtok(request, " \n");
 			char handle_msg[BUFFERSIZE];
 			memset(handle_msg, 0, BUFFERSIZE);
-			host = strtok(NULL, " ,");
+			host = strtok(NULL, " ,\n");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "%lu\n", max_handle+1);
 			}
@@ -136,7 +136,7 @@ void *recerving_handler(void *pfd) {
 					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(requests, newNode);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
-					host = strtok(NULL, ",");
+					host = strtok(NULL, ",\n ");
 				}
 				fclose(fp);
 			}
