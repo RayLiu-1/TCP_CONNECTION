@@ -209,6 +209,7 @@ void *ping_handler(void *pworker) {
 				int Num_Succ = 0;
 				int Sum_Time = 0;
 				int ready;
+				puts("asd");
 				for (int i = 0; i < CONNECTIONNO; i++) {
 					FD_ZERO(&fds);
 					FD_SET(sockfd, &fds);
@@ -231,7 +232,6 @@ void *ping_handler(void *pworker) {
 							min_time = min_time < time ? min_time : time;
 							max_time = max_time > time ? max_time : time;
 						}
-						
 						Sum_Time += time;
 					}
 					sleep(1);
