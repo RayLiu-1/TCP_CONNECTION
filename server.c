@@ -133,7 +133,7 @@ void *recerving_handler(void *pfd) {
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(&requests, newNode);
-					puts("aad");
+					//puts("aad");
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
