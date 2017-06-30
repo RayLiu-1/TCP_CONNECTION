@@ -287,11 +287,11 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < WORKSNO; i++) {
 		int *NO = malloc(sizeof(int));
 		*NO = i;
-		puts("dddd");
+		//puts("dddd");
 		if ((pthread_create(&ping_thread[i], NULL, ping_handler, NO)) < 0) {
 			perror("Creating thread failed");
 		}
-		pthread_join(ping_thread[i], NULL);
+		//pthread_join(ping_thread[i], NULL);
 	}
 
 	//Receive requests from clients 
@@ -308,7 +308,7 @@ int main(int argc, char *argv[]) {
 		if ((pthread_create(&receive_thread, NULL, recerving_handler, (void*)pfd)) < 0) {
 			perror("Creating thread failed");
 		}
-		pthread_join(receive_thread, NULL);
+		//pthread_join(receive_thread, NULL);
 	}
 	if (client_fd < 0) {
 		perror("Accecpting socket failed");
