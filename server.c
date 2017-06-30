@@ -133,9 +133,7 @@ void *recerving_handler(void *pfd) {
 					newNode->next = NULL;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
-					printf("%d\n", requests.size);
 					QueueAdd(&requests, newNode);
-					printf("%d\n", requests.size);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
@@ -158,8 +156,8 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
-	//printf("%d\n",requests.size);
 	while (1) {
+		
 		if (requests.size > 0) {
 			struct Node* p = Pop(&requests);
 			unsigned long int handle = p->handle;
@@ -244,6 +242,7 @@ void *ping_handler(void *pworker) {
 					fprintf(fp, "%4d %4d %4d   COMPLETE   \n",Sum_Time/Num_Succ,min_time,max_time);
 				}
 			}
+			fclose(fp);
 			free(p);
 		}
 	}
