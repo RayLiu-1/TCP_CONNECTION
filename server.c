@@ -110,7 +110,7 @@ void *recerving_handler(void *pfd) {
 			else {
 				strncpy(handle_msg, "Please use \'pingSites <host>\'.",BUFFERSIZE);
 			}
-			puts(host);
+			
 			if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
 				perror("Wrinting to socket failed");
 				exit(1);
@@ -128,7 +128,7 @@ void *recerving_handler(void *pfd) {
 					exit(1);
 				}
 				while (host != NULL) {
-					host = strtok(NULL, ",");
+					
 					struct Node *newNode = malloc(sizeof(struct Node));
 					newNode->handle = handle;
 					newNode->next = NULL;
@@ -136,6 +136,7 @@ void *recerving_handler(void *pfd) {
 					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(requests, newNode);
 					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
+					host = strtok(NULL, ",");
 				}
 				fclose(fp);
 			}
