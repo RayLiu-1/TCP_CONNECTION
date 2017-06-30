@@ -157,6 +157,7 @@ void *recerving_handler(void *pfd) {
 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
+	print(requests.size);
 	while (1) {
 		if (requests.size > 0) {
 			printf("%d\n", worker);
