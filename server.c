@@ -297,7 +297,6 @@ void *ping_handler(void *pworker) {
 				}
 			}
 			//fclose(fp);
-			free(p);
 		}
 	}
 }
