@@ -185,7 +185,7 @@ void *ping_handler(void *pworker) {
 			struct hostent *site;
 			//site = malloc(sizeof(struct hostent));
 			site = gethostbyname(p->site);
-			
+			printf("%s", inet_ntoa(site->h_addr_list[0]));
 			if (site == NULL|| site->h_addr_list[0]==NULL) {
 				fprintf(fp, "  --   --   --   NO_HOST    \n");
 			}
