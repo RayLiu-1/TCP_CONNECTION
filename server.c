@@ -16,6 +16,7 @@
 #define PINGPORT 80//the tcp port to ping
 #define CONNECTIONNO 10//the number of connecting trials
 #define MAXHANDLES 50//the max number of handles
+#define MAXSITES 20//the max number of site in single input
 
 struct Node * Handles[MAXHANDLES];
 struct Queue requests;
@@ -116,7 +117,9 @@ void *recerving_handler(void *pfd) {
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 				int handle = ++max_handle;
 				struct Node *newNode;
-				while (host != NULL) {
+				int sites = 0;
+				while (host != NULL&& (sites++ <MAXSITES)) {
+					
 					printf("%d\n", sizeof(struct Node));
 					newNode =(struct Node *) malloc(sizeof(struct Node));
 					//printf("%s\n", host);
