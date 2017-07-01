@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
 	int b = 2;
 	const int* c = 1;
 
-	printf("%d\n", c);
+	printf("%d\n", *c);
 	const int* c = &a;
-	printf("%d\n", c);
+	printf("%d\n", *c);
 	return 0;
 }
