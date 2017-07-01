@@ -11,7 +11,7 @@
 #include <sys/fcntl.h>
 #include <sys/types.h> 
 #define QUEUESIZE 5//the max number of requests in queue
-#define BUFFERSIZE 255//the maxsize of single buffer
+#define BUFFERSIZE 1023//the maxsize of single buffer
 #define WORKSNO 5//the number of works
 #define PINGPORT 80//the tcp port to ping
 #define CONNECTIONNO 10//the number of connecting trials
@@ -28,6 +28,7 @@ enum Status {
 	IN_PROGRESS,
 	COMPELTE,
 	NOT_FOUND,
+	TIME_OUT,
 };
 
 struct Node {
@@ -90,7 +91,6 @@ struct Node * Pop(struct Queue *que) {
 	return NULL;
 }
 
-
 void *recerving_handler(void *pfd) {
 	int client_fd = *(int*)pfd;
 	int read_size;
@@ -103,12 +103,12 @@ void *recerving_handler(void *pfd) {
 			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,\n");
 			if (strlen(host)>0) {	
-				sprintf(handle_msg, "%d\n", max_handle+1);
+				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 			}
 			else {
-				strncpy(handle_msg, "Please use \'pingSites <host>\'.",BUFFERSIZE);
+				const char * no_site = "Please use \'pingSites <host>\'."
+				strncpy(handle_msg, no_site,sizeof(no_site));
 			}
-			
 			if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
 				perror("Wrinting to socket failed");
 				exit(1);
@@ -141,8 +141,13 @@ void *recerving_handler(void *pfd) {
 			}
 		}
 		else if (strncmp("showHandleStatus", request, 16)==0) {
-
-			char handleNo[BUFFERSIZE];
+			char *handleA;
+			int handleI = max_handle+1;
+			handleA = strtok(request, " \n");
+			handleA = strtok(request, " \n");
+			if (handleA != NULL) {
+				handleI = atoi(handelA);
+			}
 			
 		}
 		else {
@@ -244,8 +249,13 @@ void *ping_handler(void *pworker) {
 				}
 				if (Num_Succ == 0) {
 					//fprintf(fp, "Connection time out         \n");
+					p->curStatus = TIME_OUT;
 				}
 				else {
+					p->avery = Sum_Time / Num_Succ;
+					p->min = min_time;
+					p->max = max_time;
+					p->curStatus = COMPELTE;
 					//fprintf(fp, "%4d %4d %4d   COMPLETE   \n",Sum_Time/Num_Succ,min_time,max_time);
 				}
 			}

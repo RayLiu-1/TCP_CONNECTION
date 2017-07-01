@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <sys/types.h> 
 #define CLIENTPORT 8010//client port
-#define BUFFERSIZE 255//the maxsize of single buffer
+#define BUFFERSIZE 1023//the maxsize of single buffer
 
 int valid_command(const char* command) {
 	char new_command[BUFFERSIZE];
@@ -82,11 +82,21 @@ int main(int argc, char *argv[]) {
 				perror("Reading from socket failed");
 				exit(1);
 			}
-
-			printf("Your handle :%s", command);
+			printf("%s", command);
 		}
 		else if (commamdType == 2) {
-			//todo
+			if (write(serverfd, command, strlen(command)) < 0) {
+				perror("Writing to socket failed");
+				exit(1);
+			}
+			memset(command, 0, BUFFERSIZE);
+			char reply[BUFFERSIZE];
+			memset(reply, 0, BUFFERSIZE);
+			while (recv(sock, reply,2000,0)>0) {
+				char reply[BUFFERSIZE];
+				memset(reply, 0, BUFFERSIZE);
+			}
+			
 		}
 	}
 	
