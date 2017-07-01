@@ -106,7 +106,7 @@ void *recerving_handler(void *pfd) {
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 			}
 			else {
-				const char * no_site = "Please use \'pingSites <host>\'."
+				const char * no_site = "Please use \'pingSites <host>\'.";
 				strncpy(handle_msg, no_site,sizeof(no_site));
 			}
 			if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
@@ -146,7 +146,7 @@ void *recerving_handler(void *pfd) {
 			handleA = strtok(request, " \n");
 			handleA = strtok(request, " \n");
 			if (handleA != NULL) {
-				handleI = atoi(handelA);
+				handleI = atoi(handleA);
 			}
 			
 		}
