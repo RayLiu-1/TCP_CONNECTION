@@ -100,6 +100,7 @@ void *recerving_handler(void *pfd) {
 	int client_fd = *(int*)pfd;
 	int read_size;
 	char request[BUFFERSIZE];
+	memset(request, 0, BUFFERSIZE);
 	while ((read_size = recv(client_fd, request, BUFFERSIZE, 0)) > 0) {
 		if (strncmp("pingSites ", request, 10) == 0) {
 			char* host;
