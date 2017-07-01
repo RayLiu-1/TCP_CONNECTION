@@ -128,7 +128,7 @@ void *recerving_handler(void *pfd) {
 				struct Node *newNode;
 				int sites = 0;
 				while (host != NULL&& (sites++ <MAXSITES)) {
-					printf("%d\n", sizeof(struct Node));
+					//printf("%d\n", sizeof(struct Node));
 					newNode =(struct Node *) malloc(sizeof(struct Node));
 					newNode->handle = handle;
 					newNode->next = NULL;
@@ -138,9 +138,9 @@ void *recerving_handler(void *pfd) {
 					newNode->avery = 0;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
-					printf("%s 1\n", host);
+					//printf("%s 1\n", host);
 					QueueAdd(&requests, newNode);
-					printf("%s 2\n", host);
+					//printf("%s 2\n", host);
 					host = strtok(NULL, " ,\n ");
 				}
 			}
