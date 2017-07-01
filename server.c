@@ -189,6 +189,7 @@ void *recerving_handler(void *pfd) {
 			exit(1);
 		}
 	}
+	memset(request, 0, BUFFERSIZE);
 }
 
 void *ping_handler(void *pworker) {
