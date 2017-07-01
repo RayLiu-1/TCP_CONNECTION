@@ -43,7 +43,7 @@ int type_command(const char* command) {
 
 
 int main(int argc, char *argv[]) {
-	if (argc < 4) {
+	if (argc < 3) {
 		perror("Please use ./client <Server's IP address> <Server's TCP port> to run the client program");
 		exit(1);
 	}
