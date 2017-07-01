@@ -15,7 +15,7 @@
 #define CLIENTPORT 8010//client port
 #define BUFFERSIZE 1023//the maxsize of single buffer
 
-int valid_command(const char* command) {
+int type_command(const char* command) {
 	char new_command[BUFFERSIZE];
 	memset(new_command, 0, BUFFERSIZE);
 	strncpy(new_command, command, BUFFERSIZE);
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 		char command[BUFFERSIZE];
 		memset(command, 0, sizeof(command));
 		fgets(command, BUFFERSIZE, stdin);
-		int commamdType = valid_command(command);
+		int commamdType = type_command(command);
 		if (commamdType == 1) {
 			if (write(serverfd, command, strlen(command)) < 0) {
 				perror("Writing to socket failed");
@@ -90,13 +90,15 @@ int main(int argc, char *argv[]) {
 				exit(1);
 			}
 			memset(command, 0, BUFFERSIZE);
-			char reply[BUFFERSIZE];
-			memset(reply, 0, BUFFERSIZE);
-			while (recv(serverfd, reply,2000,0)>0) {
-				char reply[BUFFERSIZE];
-				memset(reply, 0, BUFFERSIZE);
+			while ((recv(serverfd, command,2000,0)>0)&&(strncmp(command,
+				"END",3)!=0) { 
+				printf("%s", reply);				
+				memset(command, 0, BUFFERSIZE);
 			}
-			
+		}
+		else {
+			char *p = strtok(command, " \n");
+			printf("No command \'%s\' found, please use 'help' to lists all the commands and their syntax.\n", p);
 		}
 	}
 	

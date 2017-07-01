@@ -16,15 +16,12 @@
 #define BUFFERSIZE 256//the maxsize of single buffer
 
 int main(int argc, char *argv[]) {
-	char str1[20];
-	char str2[20];
-	char a[20]= "aaabbb bbb bbb ";
-	char *p = strtok(a, " ");
-	puts(p);
-	puts(a);
-	p = strtok(NULL, " ");
-	
-	puts(p);
-	puts(a);
+	int a = 1;
+	int b = 2;
+	const int* c = 1;
+
+	printf("%d\n", c);
+	const int* c = &a;
+	printf("%d\n", c);
 	return 0;
 }

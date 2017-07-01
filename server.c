@@ -147,8 +147,17 @@ void *recerving_handler(void *pfd) {
 			handleA = strtok(request, " \n");
 			if (handleA != NULL) {
 				handleI = atoi(handleA);
+				struct Node * p = Handles[handleI];
+				while (p != NULL) {
+
+				}
 			}
-			
+
+			char * end_msg = "END";
+			if (write(client_fd, end_msg, strlen(end_msg)) < 0) {
+				perror("Wrinting to socket failed");
+				exit(1);
+			}
 		}
 		else {
 			const char* msg = "Invalid command.\n";
