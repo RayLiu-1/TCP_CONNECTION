@@ -155,7 +155,7 @@ void *recerving_handler(void *pfd) {
 				struct Node * p = Handles[handleI];
 				while (p != NULL) {
 					memset(handle_msg, 0, BUFFERSIZE);
-					sprintf(handle_msg, "%d %s %d %d %s\n", p->handle, p->site, p->avery, p->min, p->max, STATUS_STRING[p->curStatus]);
+					sprintf(handle_msg, "%d %s %d %d %d %s\n", p->handle, p->site, p->avery, p->min, p->max, STATUS_STRING[p->curStatus]);
 					if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
 						perror("Wrinting to socket failed");
 						exit(1);
