@@ -114,15 +114,22 @@ void *recerving_handler(void *pfd) {
 				if (max_handle + 1 >= MAXHANDLES) {
 					max_handle = 0;
 				}
+				if (Handles[max_handle + 1] != NULL) {
+					struct Node* p = Handles[max_handle + 1];
+					while (p != NULL) {
+						struct Node* newP = p->nextInHandle;
+						while (p->curStatus == IN_PROGRESS || p->curStatus == IN_QUEUE);
+						free(p);
+						p = newP;
+					}
+				}
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 				int handle = ++max_handle;
 				struct Node *newNode;
 				int sites = 0;
 				while (host != NULL&& (sites++ <MAXSITES)) {
-					
 					printf("%d\n", sizeof(struct Node));
 					newNode =(struct Node *) malloc(sizeof(struct Node));
-					//printf("%s\n", host);
 					newNode->handle = handle;
 					newNode->next = NULL;
 					newNode->nextInHandle = NULL;
