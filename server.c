@@ -198,9 +198,9 @@ void *recerving_handler(void *pfd) {
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
 	while (1) {
-		if (requests.size > 0) {
+		struct Node* p = Pop(&requests);
+		if (p!=NULL) {
 			//puts("sd");
-			struct Node* p = Pop(&requests);
 			int handle = p->handle;
 			/*char logfile[BUFFERSIZE];
 			memset(logfile, 0, BUFFERSIZE);
@@ -221,11 +221,13 @@ void *ping_handler(void *pworker) {
 					break;
 				}
 			}*/
+			p
 			int sockfd, n;
 			struct sockaddr_in site_addr;
 			struct hostent *site;
 			//site = malloc(sizeof(struct hostent));
 			site = gethostbyname(p->site);
+			puts(p->site);
 			/*struct in_addr **addr_list;
 			addr_list = (struct in_addr **)site->h_addr_list;
 			printf("%s", inet_ntoa(*addr_list[0]));*/
