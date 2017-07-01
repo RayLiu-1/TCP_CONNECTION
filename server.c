@@ -157,7 +157,7 @@ void *recerving_handler(void *pfd) {
 			}
 			else {
 				int handle = 1;
-				//puts("nong");
+				puts("nong");
 				while (Handles[handle] != NULL) {
 					struct Node * p = Handles[handle];
 					while (p != NULL) {
