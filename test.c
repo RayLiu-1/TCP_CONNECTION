@@ -18,7 +18,7 @@
 int main(int argc, char *argv[]) {
 	int a = 1;
 	int b = 2;
-	const int* c = 1;
+	const int* c = &b;
 
 	printf("%d\n", *c);
 	const int* c = &a;

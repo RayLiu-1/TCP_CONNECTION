@@ -31,6 +31,10 @@ enum Status {
 	TIME_OUT,
 };
 
+static const char *STATUS_STRING[] = {
+	"IN_QUEUE", "IN_PROGRESS", "COMPELTE", "NOT_FOUND","TIME_OUT",
+};
+
 struct Node {
 	struct Node* next;
 	struct Node* nextInHandle;
@@ -145,14 +149,36 @@ void *recerving_handler(void *pfd) {
 			int handleI = max_handle+1;
 			handleA = strtok(request, " \n");
 			handleA = strtok(request, " \n");
+			char handle_msg[BUFFERSIZE];
 			if (handleA != NULL) {
 				handleI = atoi(handleA);
 				struct Node * p = Handles[handleI];
 				while (p != NULL) {
-
+					memset(handle_msg, 0, BUFFERSIZE);
+					sprintf(handle_msg, "%d %s %d %d %s\n", p->handle, p->site, p->avery, p->min, p->max, STATUS_STRING[p->curStatus]);
+					if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
+						perror("Wrinting to socket failed");
+						exit(1);
+					}
+					p = p->nextInHandle;
+				}
+				
+			}
+			else {
+				int handle = 1;
+				while (Handles[handle] != NULL) {
+					struct Node * p = Handles[handle];
+					while (p != NULL) {
+						memset(handle_msg, 0, BUFFERSIZE);
+						sprintf(handle_msg, "%d %s %d %d %s\n", p->handle, p->site, p->avery, p->min, p->max, STATUS_STRING[p->curStatus]);
+						if (write(client_fd, handle_msg, strlen(handle_msg)) < 0) {
+							perror("Wrinting to socket failed");
+							exit(1);
+						}
+						p = p->nextInHandle;
+					}
 				}
 			}
-
 			char * end_msg = "END";
 			if (write(client_fd, end_msg, strlen(end_msg)) < 0) {
 				perror("Wrinting to socket failed");

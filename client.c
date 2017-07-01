@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
 			memset(command, 0, BUFFERSIZE);
 			while ((recv(serverfd, command,2000,0)>0)&&(strncmp(command,
 				"END",3)!=0)) { 
-				printf("%s", reply);				
+				printf("%s", command);
 				memset(command, 0, BUFFERSIZE);
 			}
 		}
