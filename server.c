@@ -13,24 +13,29 @@
 #define QUEUESIZE 5//the max number of requests in queue
 #define BUFFERSIZE 255//the maxsize of single buffer
 #define WORKSNO 5//the number of works
-#define PINGPORT 80//the port to ping
+#define PINGPORT 80//the tcp port to ping
 #define CONNECTIONNO 10//the number of connecting trials
+#define MAXHANDLES 2000//the max number of handles
 pthread_mutex_t lock;//thread mutex lock
 pthread_t ping_thread[WORKSNO];
 enum Status {
 	IN_QUEUE,
 	IN_PROGRESS,
 	COMPELTE,
+	NOT_FOUND,
 };
-unsigned long max_handle;
+
 struct Node {
 	struct Node* next;
+	struct Node* nextInHandle;
+	enum Status curStatus;
 	int handle;
+	int min;
+	int max;
+	int avery;
 	struct sockaddr_in client_addr;
 	char site[256];
 };
-
-struct Node in_progress[WORKSNO];
 
 struct Queue {
 	struct Node* head;
@@ -38,7 +43,11 @@ struct Queue {
 	int size;
 };
 
-int portno;
+void HandlesAdd(struct Node* element) {
+	Node *p = Handles[element->handle];
+	Handles[element->handle] = element;
+	element->nextInHandle = p;
+}
 
 void QueueAdd(struct Queue *que, struct Node* element) {
 	pthread_mutex_lock(&lock);
@@ -52,8 +61,11 @@ void QueueAdd(struct Queue *que, struct Node* element) {
 		que->tail = que->tail->next;
 	}
 	que->size++;
+	element->curStatus = IN_QUEUE;
+	HandlesAdd(element);
 	pthread_mutex_unlock(&lock);
 }
+
 struct Node * Pop(struct Queue *que) {
 	pthread_mutex_lock(&lock);
 	if (que->size == 0) {
@@ -67,30 +79,16 @@ struct Node * Pop(struct Queue *que) {
 			que->tail = NULL;
 		que->size--;
 		pthread_mutex_unlock(&lock);
+		p->curStatus = IN_PROGRESS;
 		return p;
 	}
 	return NULL;
 }
 
-
-/*void QueueAdd(struct Queue que, const struct sockaddr_in * const client_addr,const char* site) {
-	if (que.size == 0) {
-		que.head = malloc(sizeof(struct Node));
-		que.head -> next = NULL;
-		que.head->client_addr = *client_addr;
-		strncpy(que.head->site, site, BUFFERSIZE);
-		que.tail = que.head;
-	}
-	else {
-		que.tail->next = malloc(sizeof(struct Node));
-		struct Node *p = que.tail->next;
-		p->next = NULL;
-		strncpy(p->site, site, BUFFERSIZE);
-		que.tail = que.tail->next;
-	}
-	que.size++;
-}*/
+struct Node in_progress[WORKSNO];
+Struct Node* Handles[MAXHANDLES];
 struct Queue requests;
+int max_handle;//current max handle
 
 void *recerving_handler(void *pfd) {
 	int client_fd = *(int*)pfd;
@@ -104,7 +102,7 @@ void *recerving_handler(void *pfd) {
 			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,\n");
 			if (strlen(host)>0) {	
-				sprintf(handle_msg, "%lu\n", max_handle+1);
+				sprintf(handle_msg, "%d\n", max_handle+1);
 			}
 			else {
 				strncpy(handle_msg, "Please use \'pingSites <host>\'.",BUFFERSIZE);
@@ -114,33 +112,35 @@ void *recerving_handler(void *pfd) {
 				perror("Wrinting to socket failed");
 				exit(1);
 			}
-			
-			unsigned long handle;
+			int handle;
 			if (strlen(host)>0) {
 				handle = ++max_handle;
-				FILE *fp;
-				char filename[BUFFERSIZE];
-				sprintf(filename, "%lu.log", handle);
-				fp = fopen(filename, "w+");
-				if (fp == NULL) {
+				//FILE *fp;
+				//char filename[BUFFERSIZE];
+				//sprintf(filename, "%lu.log", handle);
+				//fp = fopen(filename, "w+");
+				/*if (fp == NULL) {
 					perror("Opening file failed.");
 					exit(1);
-				}
+				}*/
 				while (host != NULL) {
 					struct Node *newNode = malloc(sizeof(struct Node));
 					newNode->handle = handle;
 					newNode->next = NULL;
+					newNode->nextInHandle = 0;
+					newNode->max = 0;
+					newNode->min = 0;
+					newNode->avery = 0;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
 					QueueAdd(&requests, newNode);
-					//puts("aad");
-					fprintf(fp, "%s\n  00   00   00   IN_QUEUE   \n",host);
 					host = strtok(NULL, ",\n ");
 				}
 				//fclose(fp);
 			}
 		}
 		else if (strncmp("showHandleStatus", request, 16)==0) {
+
 			char handleNo[BUFFERSIZE];
 			
 		}
@@ -160,8 +160,8 @@ void *ping_handler(void *pworker) {
 		if (requests.size > 0) {
 			//puts("sd");
 			struct Node* p = Pop(&requests);
-			unsigned long int handle = p->handle;
-			char logfile[BUFFERSIZE];
+			int handle = p->handle;
+			/*char logfile[BUFFERSIZE];
 			memset(logfile, 0, BUFFERSIZE);
 			sprintf(logfile, "%lu.log", handle);
 			FILE* fp;
@@ -169,8 +169,8 @@ void *ping_handler(void *pworker) {
 			if (fp == NULL) {
 				perror("Opening file failed");
 				exit(1);
-			}
-			char record[BUFFERSIZE];//Each line in the file is a record for certain host
+			}*/
+			/*char record[BUFFERSIZE];//Each line in the file is a record for certain host
 			while (fgets(record, BUFFERSIZE, fp) != NULL) {
 				char *host;
 				if (strncmp(host, p->site, strlen(host)) == 0) {
@@ -185,11 +185,11 @@ void *ping_handler(void *pworker) {
 			struct hostent *site;
 			//site = malloc(sizeof(struct hostent));
 			site = gethostbyname(p->site);
-			struct in_addr **addr_list;
+			/*struct in_addr **addr_list;
 			addr_list = (struct in_addr **)site->h_addr_list;
-			printf("%s", inet_ntoa(*addr_list[0]));
+			printf("%s", inet_ntoa(*addr_list[0]));*/
 			if (site == NULL|| site->h_addr_list[0]==NULL) {
-				fprintf(fp, "  --   --   --   NO_HOST    \n");
+				p->curStatus = NOT_FOUND;
 			}
 			else {
 				memset(&site_addr, 0, sizeof(site_addr));
@@ -219,7 +219,7 @@ void *ping_handler(void *pworker) {
 					connect(sockfd, (struct sockaddr*)&site_addr, sizeof(site_addr));
 					ready = select(sockfd + 1, &fds, &fds, NULL, &timeout);
 					gettimeofday(&end, NULL);
-					printf("%d\n", ready);
+					//printf("%d\n", ready);
 					if (ready < 0) {
 						perror("Selecting file descriptors failed");
 					}
@@ -227,7 +227,7 @@ void *ping_handler(void *pworker) {
 					else if(ready >0){
 						Num_Succ++;
 						int time = (end.tv_sec - begin.tv_sec) * 1000 + (end.tv_usec - begin.tv_usec) / 1000;
-						printf("%d\n", time);
+						//printf("%d\n", time);
 						if (Num_Succ == 0) {
 							min_time = time;
 							max_time = time;
@@ -242,10 +242,10 @@ void *ping_handler(void *pworker) {
 					sleep(1);
 				}
 				if (Num_Succ == 0) {
-					fprintf(fp, "Connection time out         \n");
+					//fprintf(fp, "Connection time out         \n");
 				}
 				else {
-					fprintf(fp, "%4d %4d %4d   COMPLETE   \n",Sum_Time/Num_Succ,min_time,max_time);
+					//fprintf(fp, "%4d %4d %4d   COMPLETE   \n",Sum_Time/Num_Succ,min_time,max_time);
 				}
 			}
 			//fclose(fp);
@@ -264,7 +264,7 @@ int main(int argc, char *argv[]) {
 	char buffer[256];
 	int server_fd,client_fd;//lsfd:file descriper of of the socket for listening
 						 //cnfd:file descriper of the socket for connection
-	//create the server socket
+						//create the server socket
 	server_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (server_fd == -1) {
 		perror("Creating socket failed");
@@ -280,7 +280,11 @@ int main(int argc, char *argv[]) {
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(port);
 	server_addr.sin_addr.s_addr = INADDR_ANY;
-
+	
+	//Inialize the Handles array
+	for (int i = 0; i < MAXHANDLES; i++) {
+		Handles[i] = NULL;
+	}
 	//char str[BUFFERSIZE];
 	//inet_ntop(AF_INET, &(server_addr.sin_addr), str, INET_ADDRSTRLEN);
 
@@ -302,11 +306,9 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < WORKSNO; i++) {
 		int *NO = malloc(sizeof(int));
 		*NO = i;
-		//puts("dddd");
 		if ((pthread_create(&ping_thread[i], NULL, ping_handler, NO)) < 0) {
 			perror("Creating thread failed");
 		}
-		//pthread_join(ping_thread[i], NULL);
 	}
 
 	//Receive requests from clients 
