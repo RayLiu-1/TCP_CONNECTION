@@ -157,9 +157,9 @@ void *recerving_handler(void *pfd) {
 			}
 			else {
 				int handle = 1;
+				puts("nong");
 				while (Handles[handle] != NULL) {
 					struct Node * p = Handles[handle];
-					puts("nong");
 					while (p != NULL) {
 						memset(handle_msg, 0, BUFFERSIZE);
 						sprintf(handle_msg, "%d %s %d %d %d %s\n", p->handle, p->site, p->avery, p->min, p->max, STATUS_STRING[p->curStatus]);
