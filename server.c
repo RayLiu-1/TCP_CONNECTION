@@ -15,7 +15,7 @@
 #define WORKSNO 5//the number of works
 #define PINGPORT 80//the tcp port to ping
 #define CONNECTIONNO 10//the number of connecting trials
-#define MAXHANDLES 2000//the max number of handles
+#define MAXHANDLES 200//the max number of handles
 
 struct Node * Handles[MAXHANDLES];
 struct Queue requests;
@@ -57,6 +57,7 @@ void HandlesAdd(struct Node* element) {
 	struct Node *p = Handles[element->handle];
 	Handles[element->handle] = element;
 	element->nextInHandle = p;
+
 	//printf("%s\n", Handles[element->handle]->site);
 }
 
@@ -109,6 +110,9 @@ void *recerving_handler(void *pfd) {
 			memset(handle_msg, 0, BUFFERSIZE);
 			host = strtok(NULL, " ,\n");
 			if (strlen(host)>0) {	
+				if (max_handle + 1 >= MAXHANDLES) {
+					max_handle = 0;
+				}
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 				int handle = ++max_handle;
 				while (host != NULL) {
