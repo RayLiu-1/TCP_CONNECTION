@@ -11,11 +11,11 @@
 #include <sys/fcntl.h>
 #include <sys/types.h> 
 #define QUEUESIZE 5//the max number of requests in queue
-#define BUFFERSIZE 1023//the maxsize of single buffer
+#define BUFFERSIZE 255//the maxsize of single buffer
 #define WORKSNO 5//the number of works
 #define PINGPORT 80//the tcp port to ping
 #define CONNECTIONNO 10//the number of connecting trials
-#define MAXHANDLES 200//the max number of handles
+#define MAXHANDLES 50//the max number of handles
 
 struct Node * Handles[MAXHANDLES];
 struct Queue requests;
