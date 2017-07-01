@@ -192,6 +192,17 @@ void *recerving_handler(void *pfd) {
 			}
 		
 		}
+		else if (strncmp("showHandles", request, 16) == 0) {
+			int handle = 1;
+			char handles[BUFFERSIZE];
+			while (handle <= max_handle) {
+				memset(handles, 0, BUFFERSIZE);
+				sprintf(Handles, "%d\n", handle);
+				if ((write(client_fd, Handles, strlen(Handles))) < 0) {
+					perror("Wrinting to socket failed");
+				}
+			}
+		}
 		else {
 			const char* msg = "Invalid command.\n";
 			//strncpy(msg, "Invalid command.\n",18);

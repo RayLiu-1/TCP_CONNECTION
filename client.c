@@ -24,18 +24,18 @@ int type_command(const char* command) {
 	const char* showStatus = "showHandleStatus";
 	const char* exit = "exit";
 	const char* help = "help";
-	if (strncmp(tok, ping, sizeof(ping)) == 0 || strncmp(tok, show, sizeof(show)) == 0 || 
+	if (strncmp(tok, ping, strlen(ping)) == 0 || strncmp(tok, show, strlen(show)) == 0 ||
 		strncmp(tok, showStatus, sizeof(showStatus)) == 0) {
 		return 1;
 	}
-	else if (strncmp(tok, ping, sizeof(ping)) == 0 || strncmp(tok, show, sizeof(show)) == 0 ||
-		strncmp(tok, showStatus, sizeof(showStatus)) == 0) {
+	else if (strncmp(tok, ping, strlen(ping)) == 0 || strncmp(tok, show, strlen(show)) == 0 ||
+		strncmp(tok, showStatus, strlen(showStatus)) == 0) {
 		return 1;
 	}
-	else if (strncmp(tok, exit, sizeof(exit)) == 0) {
+	else if (strncmp(tok, exit, strlen(exit)) == 0) {
 		return 2;
 	}
-	else if (strncmp(tok, help, sizeof(help)) == 0) {
+	else if (strncmp(tok, help, strlen(help)) == 0) {
 		return 3;
 	}
 	return 0;
