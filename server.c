@@ -16,8 +16,14 @@
 #define PINGPORT 80//the tcp port to ping
 #define CONNECTIONNO 10//the number of connecting trials
 #define MAXHANDLES 2000//the max number of handles
+
+struct Node in_progress[WORKSNO];
+struct Node * Handles[MAXHANDLES];
+struct Queue requests;
+int max_handle;//current max handle
 pthread_mutex_t lock;//thread mutex lock
 pthread_t ping_thread[WORKSNO];
+
 enum Status {
 	IN_QUEUE,
 	IN_PROGRESS,
@@ -44,7 +50,7 @@ struct Queue {
 };
 
 void HandlesAdd(struct Node* element) {
-	Node *p = Handles[element->handle];
+	struct Node *p = Handles[element->handle];
 	Handles[element->handle] = element;
 	element->nextInHandle = p;
 }
@@ -85,10 +91,6 @@ struct Node * Pop(struct Queue *que) {
 	return NULL;
 }
 
-struct Node in_progress[WORKSNO];
-Struct Node* Handles[MAXHANDLES];
-struct Queue requests;
-int max_handle;//current max handle
 
 void *recerving_handler(void *pfd) {
 	int client_fd = *(int*)pfd;
@@ -179,7 +181,7 @@ void *ping_handler(void *pworker) {
 					fseek(fp, 0 - sizeof(status), SEEK_CUR);
 					break;
 				}
-			}
+			}*/
 			int sockfd, n;
 			struct sockaddr_in site_addr;
 			struct hostent *site;
@@ -253,6 +255,7 @@ void *ping_handler(void *pworker) {
 		}
 	}
 }
+
 
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
