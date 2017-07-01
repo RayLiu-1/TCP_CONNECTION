@@ -187,9 +187,9 @@ void *recerving_handler(void *pfd) {
 		if (write(client_fd, end_msg, strlen(end_msg)) < 0) {
 			perror("Wrinting to socket failed");
 			exit(1);
-		}
+		}	
+		memset(request, 0, BUFFERSIZE);
 	}
-	memset(request, 0, BUFFERSIZE);
 }
 
 void *ping_handler(void *pworker) {
