@@ -57,7 +57,7 @@ void HandlesAdd(struct Node* element) {
 	struct Node *p = Handles[element->handle];
 	Handles[element->handle] = element;
 	element->nextInHandle = p;
-	printf("%s\n", element->handle);
+	printf("%d\n", element->handle);
 }
 
 void QueueAdd(struct Queue *que, struct Node* element) {
