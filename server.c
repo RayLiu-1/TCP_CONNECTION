@@ -126,7 +126,9 @@ void *recerving_handler(void *pfd) {
 					newNode->avery = 0;
 					memset(newNode->site, 0, BUFFERSIZE);
 					strncpy(newNode->site, host, strlen(host));
+					printf("%s 1\n", host);
 					QueueAdd(&requests, newNode);
+					printf("%s 2\n", host);
 					host = strtok(NULL, " ,\n ");
 				}
 			}
