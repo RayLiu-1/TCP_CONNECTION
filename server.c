@@ -89,8 +89,8 @@ struct Node * Pop(struct Queue *que) {
 		if (que->size == 1)
 			que->tail = NULL;
 		que->size--;
-		pthread_mutex_unlock(&lock);
 		p->curStatus = IN_PROGRESS;
+		pthread_mutex_unlock(&lock);
 		return p;
 	}
 	return NULL;
@@ -157,6 +157,9 @@ void *recerving_handler(void *pfd) {
 			}
 			else {
 				int handle = 1;
+				if (Handles[1] == NULL) {
+					printf("pam\n");
+				}
 				while (Handles[handle] != NULL) {
 					struct Node * p = Handles[handle];
 					while (p != NULL) {
@@ -220,7 +223,7 @@ void *ping_handler(void *pworker) {
 			struct hostent *site;
 			//site = malloc(sizeof(struct hostent));
 			site = gethostbyname(p->site);
-			puts(p->site);
+			//puts(p->site);
 			/*struct in_addr **addr_list;
 			addr_list = (struct in_addr **)site->h_addr_list;
 			printf("%s", inet_ntoa(*addr_list[0]));*/
