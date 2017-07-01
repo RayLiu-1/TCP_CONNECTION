@@ -177,6 +177,7 @@ void *recerving_handler(void *pfd) {
 						}
 						p = p->nextInHandle;
 					}
+					handle++;
 				}
 			}
 		
