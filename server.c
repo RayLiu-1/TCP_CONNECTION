@@ -103,10 +103,10 @@ void *recerving_handler(void *pfd) {
 	while ((read_size = recv(client_fd, request, BUFFERSIZE, 0)) > 0) {
 		if (strncmp("pingSites ", request, 10) == 0) {
 			char* host;
-			host = strtok(request, " \n");
+			host = strtok(request, " ");
 			char handle_msg[BUFFERSIZE];
 			memset(handle_msg, 0, BUFFERSIZE);
-			host = strtok(NULL, " ,\n");
+			host = strtok(NULL, " ,");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 				int handle = ++max_handle;
@@ -139,8 +139,8 @@ void *recerving_handler(void *pfd) {
 			//puts("asd222");
 			char *handleA;
 			int handleI = max_handle+1;
-			handleA = strtok(request, " \n");
-			handleA = strtok(NULL, " \n");
+			handleA = strtok(request, " ");
+			handleA = strtok(NULL, " ");
 			char handle_msg[BUFFERSIZE];
 			printf("%s\n",handleA);
 			if (strlen(handleA)>0) {
