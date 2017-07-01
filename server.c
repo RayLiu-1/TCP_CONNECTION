@@ -17,7 +17,6 @@
 #define CONNECTIONNO 10//the number of connecting trials
 #define MAXHANDLES 2000//the max number of handles
 
-struct Node in_progress[WORKSNO];
 struct Node * Handles[MAXHANDLES];
 struct Queue requests;
 int max_handle;//current max handle
