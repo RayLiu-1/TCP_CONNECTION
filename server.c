@@ -142,8 +142,7 @@ void *recerving_handler(void *pfd) {
 			handleA = strtok(request, " \n");
 			handleA = strtok(NULL, " \n");
 			char handle_msg[BUFFERSIZE];
-			if (handleA != NULL) {
-				puts("???");
+			if (strlen(handleA)>0) {
 				handleI = atoi(handleA);
 				struct Node * p = Handles[handleI];
 				while (p != NULL) {
