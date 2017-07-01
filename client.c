@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <sys/types.h> 
 #define BUFFERSIZE 255//the maxsize of single buffer
+#define MAXSITES 20//the max number of site in single input
+
 
 int type_command(const char* command) {
 	char new_command[BUFFERSIZE];
@@ -86,6 +88,15 @@ int main(int argc, char *argv[]) {
 			puts("Disconnect with Server.");
 			close(serverfd);
 			return 0;
+		}
+		else if (commamdType == 3) {
+			puts("Commands:");
+			puts("1. pingSites <host1>,<host2>...");
+			puts("  1.2. pingSites www.google.com,www.cnn.com");
+			printf("  1.3. Input the list of web sites.This command return an handle.The maximum number of sites in one command is %d.\n", MAXSITES);
+			puts("2. showHandles");
+			puts("  2.1. This commands return the handles of different requests made by all the client of the server");
+
 		}
 		else {
 			char *p = strtok(command, " \n");

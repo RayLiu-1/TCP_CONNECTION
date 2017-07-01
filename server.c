@@ -197,7 +197,13 @@ void *recerving_handler(void *pfd) {
 			char handles[BUFFERSIZE];
 			while (handle <= max_handle) {
 				memset(handles, 0, BUFFERSIZE);
-				sprintf(handles, "%d\n", handle++);
+				sprintf(handles, "%d,", handle++);
+				struct Node *p = Handles[handle];
+				while (p != NULL) {
+					strncat(handles, p->site, strlen(p->site));
+					strncat(handles, ",", 1);
+				}
+				handles[strlen(handles) - 1] = '\n';
 				if ((write(client_fd, handles, strlen(handles))) < 0) {
 					perror("Wrinting to socket failed");
 				}
