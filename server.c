@@ -57,6 +57,7 @@ void HandlesAdd(struct Node* element) {
 	struct Node *p = Handles[element->handle];
 	Handles[element->handle] = element;
 	element->nextInHandle = p;
+	prints("%s\n", element->handle);
 }
 
 void QueueAdd(struct Queue *que, struct Node* element) {
@@ -108,6 +109,21 @@ void *recerving_handler(void *pfd) {
 			host = strtok(NULL, " ,\n");
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
+				int handle = ++max_handle;
+				
+				while (host != NULL) {
+					struct Node *newNode = malloc(sizeof(struct Node));
+					newNode->handle = handle;
+					newNode->next = NULL;
+					newNode->nextInHandle = NULL;
+					newNode->max = 0;
+					newNode->min = 0;
+					newNode->avery = 0;
+					memset(newNode->site, 0, BUFFERSIZE);
+					strncpy(newNode->site, host, strlen(host));
+					QueueAdd(&requests, newNode);
+					host = strtok(NULL, ",\n ");
+				}
 			}
 			else {
 				const char * no_site = "Please use \'pingSites <host>\'.";
@@ -117,32 +133,7 @@ void *recerving_handler(void *pfd) {
 				perror("Wrinting to socket failed");
 				exit(1);
 			}
-			int handle;
-			if (strlen(host)>0) {
-				handle = ++max_handle;
-				//FILE *fp;
-				//char filename[BUFFERSIZE];
-				//sprintf(filename, "%lu.log", handle);
-				//fp = fopen(filename, "w+");
-				/*if (fp == NULL) {
-					perror("Opening file failed.");
-					exit(1);
-				}*/
-				while (host != NULL) {
-					struct Node *newNode = malloc(sizeof(struct Node));
-					newNode->handle = handle;
-					newNode->next = NULL;
-					newNode->nextInHandle = 0;
-					newNode->max = 0;
-					newNode->min = 0;
-					newNode->avery = 0;
-					memset(newNode->site, 0, BUFFERSIZE);
-					strncpy(newNode->site, host, strlen(host));
-					QueueAdd(&requests, newNode);
-					host = strtok(NULL, ",\n ");
-				}
 				//fclose(fp);
-			}
 		}
 		else if (strncmp("showHandleStatus", request, 16)==0) {
 			char *handleA;
