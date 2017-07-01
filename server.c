@@ -192,7 +192,7 @@ void *recerving_handler(void *pfd) {
 			}
 		
 		}
-		else if (strncmp("showHandles", request, 16) == 0) {
+		else if (strncmp("showHandles", request, 11) == 0) {
 			int handle = 1;
 			char handles[BUFFERSIZE];
 			while (handle <= max_handle) {
