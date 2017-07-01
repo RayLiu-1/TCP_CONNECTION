@@ -197,8 +197,8 @@ void *recerving_handler(void *pfd) {
 			char handles[BUFFERSIZE];
 			while (handle <= max_handle) {
 				memset(handles, 0, BUFFERSIZE);
-				sprintf(handles, "%d,", handle++);
-				struct Node *p = Handles[handle];
+				sprintf(handles, "%d ", handle);
+				struct Node *p = Handles[handle++];
 				while (p != NULL) {
 					strncat(handles, p->site, strlen(p->site));
 					strncat(handles, ",", 1);
