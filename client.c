@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
 			memset(command, 0, BUFFERSIZE);
 			char reply[BUFFERSIZE];
 			memset(reply, 0, BUFFERSIZE);
-			while (recv(sock, reply,2000,0)>0) {
+			while (recv(serverfd, reply,2000,0)>0) {
 				char reply[BUFFERSIZE];
 				memset(reply, 0, BUFFERSIZE);
 			}
