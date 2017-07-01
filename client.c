@@ -78,11 +78,11 @@ int main(int argc, char *argv[]) {
 				exit(1);
 			}
 			memset(command, 0, BUFFERSIZE);
-			if (read(serverfd, command, BUFFERSIZE) < 0) {
-				perror("Reading from socket failed");
-				exit(1);
+			while ((recv(serverfd, command, 2000, 0)>0) && (strncmp(command,
+				"END", 3) != 0)) {
+				printf("%s", command);
+				memset(command, 0, BUFFERSIZE);
 			}
-			printf("%s", command);
 		}
 		else if (commamdType == 2) {
 			if (write(serverfd, command, strlen(command)) < 0) {
