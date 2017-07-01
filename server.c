@@ -57,7 +57,7 @@ void HandlesAdd(struct Node* element) {
 	struct Node *p = Handles[element->handle];
 	Handles[element->handle] = element;
 	element->nextInHandle = p;
-	//printf("%d\n", element->handle);
+	printf("%s\n", Handles[element->handle]->site);
 }
 
 void QueueAdd(struct Queue *que, struct Node* element) {
@@ -136,7 +136,7 @@ void *recerving_handler(void *pfd) {
 				//fclose(fp);
 		}
 		else if (strncmp("showHandleStatus", request, 16)==0) {
-			puts("asd222");
+			//puts("asd222");
 			char *handleA;
 			int handleI = max_handle+1;
 			handleA = strtok(request, " \n");
@@ -159,7 +159,6 @@ void *recerving_handler(void *pfd) {
 				int handle = 1;
 				while (Handles[handle] != NULL) {
 					struct Node * p = Handles[handle];
-					puts("asd");
 					while (p != NULL) {
 						memset(handle_msg, 0, BUFFERSIZE);
 						sprintf(handle_msg, "%d %s %d %d %d %s\n", p->handle, p->site, p->avery, p->min, p->max, STATUS_STRING[p->curStatus]);
