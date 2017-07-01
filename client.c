@@ -12,8 +12,7 @@
 //#include <arpa/inet.h>
 #include <unistd.h>
 #include <sys/types.h> 
-#define CLIENTPORT 8010//client port
-#define BUFFERSIZE 1023//the maxsize of single buffer
+#define BUFFERSIZE 255//the maxsize of single buffer
 
 int type_command(const char* command) {
 	char new_command[BUFFERSIZE];
@@ -44,14 +43,13 @@ int type_command(const char* command) {
 
 
 int main(int argc, char *argv[]) {
-	if (argc < 3) {
-		perror("Please use ./client <Server's IP address> <port> to run the client program");
+	if (argc < 4) {
+		perror("Please use ./client <Server's IP address> <Server's TCP port> to run the client program");
 		exit(1);
 	}
 	//Set the server socket:
-	int serverfd, portno;
+	int serverfd;
 	struct sockaddr_in server_addr;
-	portno = atoi(argv[2]);
 	if ((serverfd = socket(AF_INET, SOCK_STREAM, 0))<0) {
 		perror("Creating socket failed");
 		exit(1);
@@ -85,16 +83,9 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		else if (commamdType == 2) {
-			if (write(serverfd, command, strlen(command)) < 0) {
-				perror("Writing to socket failed");
-				exit(1);
-			}
-			memset(command, 0, BUFFERSIZE);
-			while ((recv(serverfd, command,2000,0)>0)&&(strncmp(command,
-				"END",3)!=0)) { 
-				printf("%s", command);
-				memset(command, 0, BUFFERSIZE);
-			}
+			puts("Disconnect with Server.");
+			close(serverfd);
+			return 0;
 		}
 		else {
 			char *p = strtok(command, " \n");

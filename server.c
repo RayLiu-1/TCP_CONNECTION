@@ -202,7 +202,6 @@ void *recerving_handler(void *pfd) {
 		char * end_msg = "END";
 		if (write(client_fd, end_msg, strlen(end_msg)) < 0) {
 			perror("Wrinting to socket failed");
-			exit(1);
 		}	
 		memset(request, 0, BUFFERSIZE);
 	}
@@ -353,6 +352,8 @@ int main(int argc, char *argv[]) {
 	//Bind server socket with server address
 	if ((bind(server_fd, (struct sockaddr*) &server_addr, sizeof(server_addr) )) < 0) {
 		perror("Binding socket failed");
+		exit(1);
+
 	}
 	//Listen on the server socket for connections
 	listen(server_fd, QUEUESIZE);
@@ -361,6 +362,8 @@ int main(int argc, char *argv[]) {
 	if ((pthread_mutex_init(&lock, NULL)) != 0)
 	{
 		perror("Initailizing mutex lock failed\n");
+		exit(1);
+
 	}
 	//Create the ping thread
 
@@ -369,6 +372,8 @@ int main(int argc, char *argv[]) {
 		*NO = i;
 		if ((pthread_create(&ping_thread[i], NULL, ping_handler, NO)) < 0) {
 			perror("Creating thread failed");
+			exit(1);
+
 		}
 	}
 
@@ -390,6 +395,7 @@ int main(int argc, char *argv[]) {
 	}
 	if (client_fd < 0) {
 		perror("Accecpting socket failed");
+		exit(1);
 	}
 	return 0;
 }
