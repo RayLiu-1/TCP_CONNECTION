@@ -139,7 +139,7 @@ void *recerving_handler(void *pfd) {
 			char *handleA;
 			int handleI = max_handle+1;
 			handleA = strtok(request, " \n");
-			handleA = strtok(request, " \n");
+			handleA = strtok(NULL, " \n");
 			char handle_msg[BUFFERSIZE];
 			if (handleA != NULL) {
 				handleI = atoi(handleA);
@@ -153,13 +153,9 @@ void *recerving_handler(void *pfd) {
 					}
 					p = p->nextInHandle;
 				}
-				
 			}
 			else {
 				int handle = 1;
-				if (Handles[1] == NULL) {
-					printf("pam\n");
-				}
 				while (Handles[handle] != NULL) {
 					struct Node * p = Handles[handle];
 					while (p != NULL) {
