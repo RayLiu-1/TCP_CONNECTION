@@ -111,8 +111,8 @@ void *recerving_handler(void *pfd) {
 			if (strlen(host)>0) {	
 				sprintf(handle_msg, "Your handle is %d\n", max_handle+1);
 				int handle = ++max_handle;
-				
 				while (host != NULL) {
+					printf("%s\n", host);
 					struct Node *newNode = malloc(sizeof(struct Node));
 					newNode->handle = handle;
 					newNode->next = NULL;
