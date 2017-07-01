@@ -221,7 +221,7 @@ void *ping_handler(void *pworker) {
 					break;
 				}
 			}*/
-			p
+			
 			int sockfd, n;
 			struct sockaddr_in site_addr;
 			struct hostent *site;
