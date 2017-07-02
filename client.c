@@ -103,6 +103,7 @@ int main(int argc, char *argv[]) {
 			puts("   Show the status of all handles");
 			puts("5. exit");
 			puts("   Exits the client");
+			puts("6. help");
 			puts("   Show all the commands");
 		}
 		else {
