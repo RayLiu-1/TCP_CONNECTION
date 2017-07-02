@@ -111,7 +111,5 @@ int main(int argc, char *argv[]) {
 			printf("No command \'%s\' found, please use 'help' to lists all the commands and their syntax.\n", p);
 		}
 	}
-	
-	
 	return 0;
 }

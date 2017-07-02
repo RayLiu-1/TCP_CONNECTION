@@ -44,7 +44,6 @@ struct Node {
 	int min;
 	int max;
 	int avery;
-	struct sockaddr_in client_addr;
 	char site[256];
 };
 
