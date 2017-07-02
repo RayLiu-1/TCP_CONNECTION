@@ -20,7 +20,7 @@ int type_command(const char* command) {
 	char new_command[BUFFERSIZE];
 	memset(new_command, 0, BUFFERSIZE);
 	strncpy(new_command, command, BUFFERSIZE);
-	char *tok = strtok(new_command, " ");
+	char *tok = strtok(new_command, " \n");
 	const char* ping = "pingSites";
 	const char* show = "showHandles";
 	const char* showStatus = "showHandleStatus";
