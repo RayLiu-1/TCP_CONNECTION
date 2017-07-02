@@ -108,7 +108,6 @@ int main(int argc, char *argv[]) {
 		else {
 			char *p = strtok(command, " \n");
 			printf("No command \'%s\' found, please use 'help' to lists all the commands and their syntax.\n", p);
-			printf("")
 		}
 	}
 	
