@@ -202,6 +202,7 @@ void *recerving_handler(void *pfd) {
 				while (p != NULL) {
 					strncat(handles, p->site, strlen(p->site));
 					strncat(handles, ",", 1);
+					p = p->nextInHandle;
 				}
 				printf(handles);
 				handles[strlen(handles) - 1] = '\n';
