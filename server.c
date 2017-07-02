@@ -332,7 +332,6 @@ void *ping_handler(void *pworker) {
 	}
 }
 
-
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
 		perror("Please use ./server <port> to run the server program");

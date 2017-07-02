@@ -93,14 +93,22 @@ int main(int argc, char *argv[]) {
 			puts("Commands:");
 			puts("1. pingSites <host1>,<host2>...");
 			puts("  1.2. pingSites www.google.com,www.cnn.com");
-			printf("  1.3. Input the list of web sites.This command return an handle.The maximum number of sites in one command is %d.\n", MAXSITES);
+			printf("  1.3. Input the list of web sites.This command shows an handle.The maximum number of sites in one command is %d.\n", MAXSITES);
 			puts("2. showHandles");
-			puts("  2.1. This commands return the handles of different requests made by all the client of the server");
-
+			puts("  2.1. This command shows the handles of different requests made by all the client of the server");
+			puts("3. showHandleStatus <handle>");
+			puts("  3.1. This command shows the status of request in following format:");
+			puts("       Handle SiteName Average Minimum Maximum Status");
+			puts("4. showHandleStatus");
+			puts("   Show the status of all handles");
+			puts("5. exit");
+			puts("   Exits the client");
+			puts("   Show all the commands");
 		}
 		else {
 			char *p = strtok(command, " \n");
 			printf("No command \'%s\' found, please use 'help' to lists all the commands and their syntax.\n", p);
+			printf("")
 		}
 	}
 	
