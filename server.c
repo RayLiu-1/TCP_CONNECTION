@@ -203,7 +203,6 @@ void *recerving_handler(void *pfd) {
 					strncat(handles, ",", 1);
 					p = p->nextInHandle;
 				}
-				printf(handles);
 				handles[strlen(handles) - 1] = '\n';
 				if ((write(client_fd, handles, strlen(handles))) < 0) {
 					perror("Wrinting to socket failed");
