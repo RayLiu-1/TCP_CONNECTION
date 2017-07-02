@@ -15,7 +15,10 @@
 #define BUFFERSIZE 255//the maxsize of single buffer
 #define MAXSITES 20//the max number of site in single input
 
-
+/*return the type of command: type 1:pingSites showHandles showHanldeStatus are should be sent to sever
+							  type 2:exit
+							  type 3:help
+							  type 0:no such a command found*/
 int type_command(const char* command) {
 	char new_command[BUFFERSIZE];
 	memset(new_command, 0, BUFFERSIZE);
@@ -62,6 +65,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	puts("Get connection with the server.");
+	//Receive input
 	while (1) {
 		puts("Please enter the commands:");
 		char command[BUFFERSIZE];

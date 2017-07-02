@@ -18,8 +18,8 @@
 #define MAXHANDLES 50//the max number of handles
 #define MAXSITES 20//the max number of site in single input
 
-struct Node * Handles[MAXHANDLES];
-struct Queue requests;
+struct Node * Handles[MAXHANDLES];//the array of heads of handle list
+struct Queue requests;//waiting que
 int max_handle;//current max handle
 pthread_mutex_t lock;//thread mutex lock
 pthread_t ping_thread[WORKSNO];
@@ -53,6 +53,7 @@ struct Queue {
 	int size;
 };
 
+//Add Node to their handle list
 void HandlesAdd(struct Node* element) {
 	struct Node *p = Handles[element->handle];
 	Handles[element->handle] = element;
@@ -60,7 +61,7 @@ void HandlesAdd(struct Node* element) {
 
 	//printf("%s\n", Handles[element->handle]->site);
 }
-
+//Add Node to  que
 void QueueAdd(struct Queue *que, struct Node* element) {
 	pthread_mutex_lock(&lock);
 	if (que->size == 0) {
@@ -77,7 +78,7 @@ void QueueAdd(struct Queue *que, struct Node* element) {
 	HandlesAdd(element);
 	pthread_mutex_unlock(&lock);
 }
-
+//Pop to top Node from que
 struct Node * Pop(struct Queue *que) {
 	pthread_mutex_lock(&lock);
 	if (que->size == 0) {
@@ -96,7 +97,7 @@ struct Node * Pop(struct Queue *que) {
 	}
 	return NULL;
 }
-
+//recerving the request from client and return the results
 void *recerving_handler(void *pfd) {
 	int client_fd = *(int*)pfd;
 	int read_size;
@@ -223,7 +224,7 @@ void *recerving_handler(void *pfd) {
 		memset(request, 0, BUFFERSIZE);
 	}
 }
-
+//retrieving the site name from request que and ping to the site 
 void *ping_handler(void *pworker) {
 	int worker = *(int *)pworker;
 	while (1) {
@@ -336,7 +337,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	const int port = atoi(argv[1]);
-	printf("%d\n",port);
+	//printf("%d\n",port);
 	char buffer[256];
 	int server_fd,client_fd;//lsfd:file descriper of of the socket for listening
 						 //cnfd:file descriper of the socket for connection
